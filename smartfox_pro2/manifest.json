@@ -1,0 +1,11 @@
+{
+  "domain": "smartfox_pro2",
+  "name": "Smartfox Pro 2",
+  "version": "1.0.0",
+  "config_flow": true,
+  "documentation": "https://github.com/home-assistant-smartfox/ha-smartfox-pro2",
+  "requirements": [],
+  "dependencies": [],
+  "codeowners": [],
+  "iot_class": "local_polling"
+}

@@ -1,0 +1,65 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Smartfox Pro 2 einrichten",
+        "data": {
+          "host": "IP-Adresse oder Hostname",
+          "scan_interval": "Abfrageintervall (Sekunden)"
+        },
+        "data_description": {
+          "host": "z. B. 192.168.178.143",
+          "scan_interval": "Mindestens 5 Sekunden"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung zum Smartfox Pro 2 fehlgeschlagen. Bitte IP-Adresse prüfen.",
+      "invalid_response": "Die Antwort des Geräts ist ungültig. Handelt es sich um einen Smartfox Pro 2?",
+      "unknown": "Unbekannter Fehler aufgetreten."
+    },
+    "abort": {
+      "already_configured": "Dieses Gerät ist bereits eingerichtet."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "grid_power": { "name": "Netzleistung" },
+      "grid_power_l1": { "name": "Netzleistung L1" },
+      "grid_power_l2": { "name": "Netzleistung L2" },
+      "grid_power_l3": { "name": "Netzleistung L3" },
+      "grid_voltage_l1": { "name": "Netzspannung L1" },
+      "grid_voltage_l2": { "name": "Netzspannung L2" },
+      "grid_voltage_l3": { "name": "Netzspannung L3" },
+      "grid_current_l1": { "name": "Netzstrom L1" },
+      "grid_current_l2": { "name": "Netzstrom L2" },
+      "grid_current_l3": { "name": "Netzstrom L3" },
+      "energy_from_grid": { "name": "Netzbezug gesamt" },
+      "energy_to_grid": { "name": "Netzeinspeisung gesamt" },
+      "energy_from_grid_today": { "name": "Netzbezug heute" },
+      "energy_to_grid_today": { "name": "Netzeinspeisung heute" },
+      "grid_frequency": { "name": "Netzfrequenz" },
+      "charger_power": { "name": "Ladeleistung" },
+      "charger_energy_today": { "name": "Ladeenergie heute" },
+      "charger_last_session": { "name": "Letzte Ladesession" },
+      "charger_cycle_count": { "name": "Ladezyklen gesamt" },
+      "charger_status": {
+        "name": "Status",
+        "state": {
+          "not_configured": "Nicht konfiguriert",
+          "available": "Verfügbar",
+          "occupied": "Belegt",
+          "charging": "Lädt",
+          "offline": "Offline"
+        }
+      },
+      "charger_control_current": { "name": "Regelstrom" },
+      "charger_phase_l1": { "name": "Phasenstrom L1" },
+      "charger_phase_l2": { "name": "Phasenstrom L2" },
+      "charger_phase_l3": { "name": "Phasenstrom L3" },
+      "charger_temperature": { "name": "Temperatur" },
+      "charger_current_limit": { "name": "Stromlimit" },
+      "charger_energy_total": { "name": "Ladeenergie gesamt" }
+    }
+  }
+}

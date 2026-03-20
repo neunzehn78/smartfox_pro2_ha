@@ -1,0 +1,117 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Set up Smartfox Pro 2",
+        "data": {
+          "host": "IP Address or Hostname",
+          "scan_interval": "Poll interval (seconds)"
+        },
+        "data_description": {
+          "host": "e.g. 192.168.178.143",
+          "scan_interval": "Minimum 5 seconds"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to Smartfox Pro 2. Please check the IP address.",
+      "invalid_response": "The device response is invalid. Is this a Smartfox Pro 2?",
+      "unknown": "An unknown error occurred."
+    },
+    "abort": {
+      "already_configured": "This device is already configured."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "grid_power": {
+        "name": "Grid Power"
+      },
+      "grid_power_l1": {
+        "name": "Grid Power L1"
+      },
+      "grid_power_l2": {
+        "name": "Grid Power L2"
+      },
+      "grid_power_l3": {
+        "name": "Grid Power L3"
+      },
+      "grid_voltage_l1": {
+        "name": "Grid Voltage L1"
+      },
+      "grid_voltage_l2": {
+        "name": "Grid Voltage L2"
+      },
+      "grid_voltage_l3": {
+        "name": "Grid Voltage L3"
+      },
+      "grid_current_l1": {
+        "name": "Grid Current L1"
+      },
+      "grid_current_l2": {
+        "name": "Grid Current L2"
+      },
+      "grid_current_l3": {
+        "name": "Grid Current L3"
+      },
+      "energy_from_grid": {
+        "name": "Total Energy from Grid"
+      },
+      "energy_to_grid": {
+        "name": "Total Energy to Grid"
+      },
+      "energy_from_grid_today": {
+        "name": "Energy from Grid Today"
+      },
+      "energy_to_grid_today": {
+        "name": "Energy to Grid Today"
+      },
+      "grid_frequency": {
+        "name": "Grid Frequency"
+      },
+      "charger_power": {
+        "name": "Charging Power"
+      },
+      "charger_energy_today": {
+        "name": "Charging Energy Today"
+      },
+      "charger_last_session": {
+        "name": "Last Charge Session"
+      },
+      "charger_cycle_count": {
+        "name": "Total Charge Cycles"
+      },
+      "charger_status": {
+        "name": "Status",
+        "state": {
+          "not_configured": "Not configured",
+          "available": "Available",
+          "occupied": "Occupied",
+          "charging": "Charging",
+          "offline": "Offline"
+        }
+      },
+      "charger_control_current": {
+        "name": "Control Current"
+      },
+      "charger_phase_l1": {
+        "name": "Phase Current L1"
+      },
+      "charger_phase_l2": {
+        "name": "Phase Current L2"
+      },
+      "charger_phase_l3": {
+        "name": "Phase Current L3"
+      },
+      "charger_temperature": {
+        "name": "Temperature"
+      },
+      "charger_current_limit": {
+        "name": "Current Limit"
+      },
+      "charger_energy_total": {
+        "name": "Total Charging Energy"
+      }
+    }
+  }
+}
