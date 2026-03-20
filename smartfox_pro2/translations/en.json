@@ -111,6 +111,15 @@
       },
       "charger_energy_total": {
         "name": "Total Charging Energy"
+      },
+      "charger_mode": {
+        "name": "Charging Mode",
+        "state": {
+          "off": "Off",
+          "manual": "Manual (M)",
+          "surplus": "Surplus Charging (A)",
+          "surplus_plus": "Surplus Charging Plus (A+)"
+        }
       }
     }
   }

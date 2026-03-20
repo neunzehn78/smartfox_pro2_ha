@@ -14,3 +14,11 @@ CC_STATUS_MAP = {
     "3": "charging",
     "255": "offline",
 }
+
+# Car Charger charging mode
+CC_MODE_MAP = {
+    "0": "surplus",
+    "1": "manual",
+    "2": "surplus_plus",
+    "3": "off",
+}

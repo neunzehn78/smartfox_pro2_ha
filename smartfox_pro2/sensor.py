@@ -27,7 +27,7 @@ from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import CC_STATUS_MAP, CONF_HOST, DOMAIN
+from .const import CC_MODE_MAP, CC_STATUS_MAP, CONF_HOST, DOMAIN
 from .coordinator import SmartfoxCoordinator, extract_number, strip_html
 
 _LOGGER = logging.getLogger(__name__)
@@ -271,6 +271,15 @@ WALLBOX_SENSORS: tuple[SmartfoxSensorDescription, ...] = (
         state_class=SensorStateClass.MEASUREMENT,
         value_fn=lambda d: float(d["hidCc1Percent"].replace("%", "").strip())
             if d.get("hidCc1Percent") else None,
+    ),
+    SmartfoxSensorDescription(
+        key="wallbox_mode",
+        translation_key="charger_mode",
+        native_unit_of_measurement=None,
+        device_class=SensorDeviceClass.ENUM,
+        state_class=None,
+        options=list(CC_MODE_MAP.values()),
+        value_fn=lambda d: CC_MODE_MAP.get(d.get("hidCcMode1", "").strip(), d.get("hidCcMode1")),
     ),
 )
 
