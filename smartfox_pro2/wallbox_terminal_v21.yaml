@@ -1,0 +1,427 @@
+title: Smartfox Pro Charger
+icon: mdi:ev-station
+views:
+  - title: Smartfox Pro Charger
+    path: wallbox
+    icon: mdi:ev-station
+    background:
+      color: '#0a0a0a'
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:stack-in-card
+            mode: horizontal
+            card_mod:
+              style: |
+                ha-card {
+                  background: #111 !important;
+                  border: 1px solid #1e1e1e !important;
+                  border-radius: 16px !important;
+                  overflow: hidden !important;
+                }
+            cards:
+              - type: custom:button-card
+                entity: sensor.wallbox_status
+                show_name: true
+                show_state: true
+                show_icon: true
+                icon: mdi:ev-station
+                name: STATUS
+                styles:
+                  card:
+                    - background: transparent
+                    - border: none
+                    - border-right: 1px solid "#1e1e1e"
+                    - border-radius: 0px
+                    - padding: 14px 16px
+                  name:
+                    - font-size: 9px
+                    - letter-spacing: 0.18em
+                    - color: '#444'
+                    - text-transform: uppercase
+                    - margin-bottom: 2px
+                  state:
+                    - font-size: 16px
+                    - font-weight: 700
+                    - letter-spacing: 0.05em
+                    - text-transform: uppercase
+                  icon:
+                    - width: 22px
+                    - color: |-
+                        [[[ if (entity.state === 'charging') return '#00e070';
+                            if (entity.state === 'available') return '#4a9eff';
+                            if (entity.state === 'occupied') return '#cc8800';
+                            return '#333'; ]]]
+                  img_cell:
+                    - margin-right: 10px
+                state:
+                  - value: charging
+                    styles:
+                      state:
+                        - color: '#00e070'
+                  - value: available
+                    styles:
+                      state:
+                        - color: '#4a9eff'
+                  - value: occupied
+                    styles:
+                      state:
+                        - color: '#cc8800'
+                  - operator: default
+                    styles:
+                      state:
+                        - color: '#444'
+              - type: custom:button-card
+                entity: sensor.wallbox_lademodus
+                show_name: true
+                show_state: true
+                show_icon: true
+                icon: mdi:tune-variant
+                name: MODUS
+                styles:
+                  card:
+                    - background: transparent
+                    - border: none
+                    - border-radius: 0px
+                    - padding: 14px 16px
+                  name:
+                    - font-size: 9px
+                    - letter-spacing: 0.18em
+                    - color: '#444'
+                    - text-transform: uppercase
+                    - margin-bottom: 2px
+                  state:
+                    - font-size: 16px
+                    - font-weight: 700
+                  icon:
+                    - width: 22px
+                    - color: >-
+                        [[[ if
+                        (['surplus','surplus_plus'].includes(entity.state))
+                        return '#00803a';
+                            if (entity.state === 'manual') return '#4a9eff';
+                            return '#333'; ]]]
+                  img_cell:
+                    - margin-right: 10px
+                state:
+                  - value: surplus
+                    styles:
+                      state:
+                        - color: '#00803a'
+                  - value: surplus_plus
+                    styles:
+                      state:
+                        - color: '#00e070'
+                  - value: manual
+                    styles:
+                      state:
+                        - color: '#4a9eff'
+                  - value: 'off'
+                    styles:
+                      state:
+                        - color: '#444'
+                  - operator: default
+                    styles:
+                      state:
+                        - color: '#555'
+          - type: custom:button-card
+            entity: sensor.wallbox_ladeleistung
+            show_name: true
+            show_state: true
+            show_icon: false
+            name: LADELEISTUNG
+            styles:
+              card:
+                - background: '#0d0d0d'
+                - border: 1px solid "#1e1e1e"
+                - border-radius: 16px
+                - padding: 24px 20px 20px
+                - text-align: center
+              name:
+                - font-size: 9px
+                - letter-spacing: 0.18em
+                - color: '#333'
+                - text-transform: uppercase
+                - margin-bottom: 8px
+                - display: block
+              state:
+                - font-size: 72px
+                - font-weight: 700
+                - color: white
+                - letter-spacing: '-0.02em'
+                - line-height: 1
+            state_display: |-
+              [[[
+                const w = parseFloat(entity.state) || 0;
+                const kw = (w / 1000).toFixed(2);
+                return `<span style="color:white">${kw}</span><span style="font-size:24px;color:#00e070;font-weight:400;margin-left:6px">kW</span>`;
+              ]]]
+          - type: custom:stack-in-card
+            mode: horizontal
+            card_mod:
+              style: |
+                ha-card {
+                  background: #111 !important;
+                  border: 1px solid #1e1e1e !important;
+                  border-radius: 16px !important;
+                  overflow: hidden !important;
+                }
+            cards:
+              - type: custom:button-card
+                entity: sensor.wallbox_letzte_ladesession
+                show_name: true
+                show_state: true
+                show_icon: false
+                name: LETZTE SESSION
+                styles:
+                  card:
+                    - background: transparent
+                    - border: none
+                    - border-right: 1px solid "#1e1e1e"
+                    - border-radius: 0px
+                    - padding: 16px
+                    - text-align: center
+                  name:
+                    - font-size: 9px
+                    - letter-spacing: 0.15em
+                    - color: '#444'
+                    - text-transform: uppercase
+                    - margin-bottom: 6px
+                  state:
+                    - font-size: 28px
+                    - font-weight: 700
+                    - color: '#ddd'
+              - type: custom:button-card
+                entity: sensor.wallbox_ladeenergie_heute
+                show_name: true
+                show_state: true
+                show_icon: false
+                name: HEUTE
+                styles:
+                  card:
+                    - background: transparent
+                    - border: none
+                    - border-radius: 0px
+                    - padding: 16px
+                    - text-align: center
+                  name:
+                    - font-size: 9px
+                    - letter-spacing: 0.15em
+                    - color: '#444'
+                    - text-transform: uppercase
+                    - margin-bottom: 6px
+                  state:
+                    - font-size: 28px
+                    - font-weight: 700
+                    - color: '#ddd'
+      - type: vertical-stack
+        cards:
+          - type: custom:stack-in-card
+            mode: horizontal
+            card_mod:
+              style: |
+                ha-card {
+                  background: #0d0d0d !important;
+                  border: 1px solid #1e1e1e !important;
+                  border-radius: 16px !important;
+                  overflow: hidden !important;
+                }
+            cards:
+              - type: custom:button-card
+                entity: sensor.wallbox_regelstrom
+                show_name: true
+                show_state: true
+                show_icon: false
+                name: REGELSTROM
+                styles:
+                  card:
+                    - background: transparent
+                    - border: none
+                    - border-right: 1px solid "#1e1e1e"
+                    - border-radius: 0px
+                    - padding: 14px 10px
+                    - text-align: center
+                  name:
+                    - font-size: 8px
+                    - letter-spacing: 0.12em
+                    - color: '#2a2a2a'
+                    - text-transform: uppercase
+                    - margin-bottom: 4px
+                  state:
+                    - font-size: 20px
+                    - font-weight: 700
+                    - color: '#00803a'
+              - type: custom:button-card
+                entity: sensor.wallbox_stromlimit
+                show_name: true
+                show_state: true
+                show_icon: false
+                name: LIMIT
+                styles:
+                  card:
+                    - background: transparent
+                    - border: none
+                    - border-right: 1px solid "#1e1e1e"
+                    - border-radius: 0px
+                    - padding: 14px 10px
+                    - text-align: center
+                  name:
+                    - font-size: 8px
+                    - letter-spacing: 0.12em
+                    - color: '#2a2a2a'
+                    - text-transform: uppercase
+                    - margin-bottom: 4px
+                  state:
+                    - font-size: 20px
+                    - font-weight: 700
+                    - color: '#555'
+              - type: custom:button-card
+                entity: sensor.wallbox_temperatur
+                show_name: true
+                show_state: true
+                show_icon: false
+                name: TEMP
+                styles:
+                  card:
+                    - background: transparent
+                    - border: none
+                    - border-radius: 0px
+                    - padding: 14px 10px
+                    - text-align: center
+                  name:
+                    - font-size: 8px
+                    - letter-spacing: 0.12em
+                    - color: '#2a2a2a'
+                    - text-transform: uppercase
+                    - margin-bottom: 4px
+                  state:
+                    - font-size: 20px
+                    - font-weight: 700
+                    - color: |-
+                        [[[ const t = parseFloat(entity.state) || 0;
+                            if (t > 50) return '#cc3333';
+                            if (t > 35) return '#cc8800';
+                            return '#555'; ]]]
+          - type: custom:button-card
+            name: PHASENSTRÖME
+            show_name: true
+            show_state: false
+            show_icon: false
+            triggers_update:
+              - sensor.wallbox_phasenstrom_l1
+              - sensor.wallbox_phasenstrom_l2
+              - sensor.wallbox_phasenstrom_l3
+            custom_fields:
+              phases: |
+                [[[
+                  const max = 16;
+                  const phases = [
+                    { label: 'L1', id: 'sensor.wallbox_phasenstrom_l1' },
+                    { label: 'L2', id: 'sensor.wallbox_phasenstrom_l2' },
+                    { label: 'L3', id: 'sensor.wallbox_phasenstrom_l3' },
+                  ];
+                  const rows = phases.map(p => {
+                    const val = parseFloat(states[p.id]?.state) || 0;
+                    const pct = Math.min(100, (val / max) * 100);
+                    const col = pct > 80 ? '#00e070' : pct > 50 ? '#00803a' : '#004d28';
+                    return `
+                      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+                        <span style="font-size:10px;color:#444;width:16px;flex-shrink:0">${p.label}</span>
+                        <div style="flex:1;height:6px;background:#1e1e1e;border-radius:3px;overflow:hidden">
+                          <div style="width:${pct}%;height:100%;background:${col};border-radius:3px;transition:width .8s ease"></div>
+                        </div>
+                        <span style="font-size:12px;color:#777;width:72px;text-align:right;flex-shrink:0;padding-right:4px">${val.toFixed(1)} A</span>
+                      </div>`;
+                  }).join('');
+                  return `<div style="width:100%;padding:0 4px">${rows}</div>`;
+                ]]]
+            styles:
+              card:
+                - background: '#111'
+                - border: 1px solid "#1e1e1e"
+                - border-radius: 16px
+                - padding: 14px 20px 6px
+                - text-align: left
+              name:
+                - font-size: 9px
+                - letter-spacing: 0.18em
+                - color: '#2a2a2a'
+                - text-transform: uppercase
+                - margin-bottom: 10px
+                - display: block
+              custom_fields:
+                phases:
+                  - width: 100%
+                  - padding: 0
+          - type: custom:mini-graph-card
+            entities:
+              - entity: sensor.wallbox_ladeleistung
+                name: Ladeleistung
+            name: VERLAUF
+            hours_to_show: 12
+            points_per_hour: 6
+            line_width: 2
+            font_size: 65
+            show:
+              labels: false
+              points: false
+              legend: false
+              name: true
+              icon: false
+              state: false
+              fill: fade
+              extrema: true
+            hour24: true
+            lower_bound: 0
+            color: '#00803a'
+            card_mod:
+              style: |
+                ha-card {
+                  background: #111 !important;
+                  border: 1px solid #1e1e1e !important;
+                  border-radius: 16px !important;
+                }
+                .header .name {
+                  font-size: 9px !important;
+                  letter-spacing: 0.18em !important;
+                  color: #2a2a2a !important;
+                  text-transform: uppercase !important;
+                }
+                .extrema-container .value {
+                  color: #444 !important;
+                  font-size: 11px !important;
+                }
+          - type: custom:button-card
+            entity: sensor.wallbox_ladezyklen_gesamt
+            show_name: true
+            show_state: true
+            show_icon: true
+            icon: mdi:counter
+            name: Ladezyklen gesamt
+            styles:
+              card:
+                - background: '#0a0a0a'
+                - border: 1px solid "#141414"
+                - border-radius: 16px
+                - padding: 10px 16px
+                - justify-content: flex-start
+                - text-align: left
+              grid:
+                - grid-template-areas: '"i n s"'
+                - grid-template-columns: min-content 1fr min-content
+              name:
+                - font-size: 10px
+                - color: '#2a2a2a'
+                - letter-spacing: 0.1em
+                - text-transform: uppercase
+                - justify-self: start
+              state:
+                - font-size: 13px
+                - font-weight: 700
+                - color: '#333'
+                - justify-self: end
+              icon:
+                - color: '#1e1e1e'
+                - width: 16px
+              img_cell:
+                - margin-right: 8px

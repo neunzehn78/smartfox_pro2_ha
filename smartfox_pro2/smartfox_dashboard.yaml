@@ -1,0 +1,193 @@
+title: Wallbox
+icon: mdi:ev-station
+views:
+  - title: Wallbox
+    path: wallbox
+    icon: mdi:ev-station
+    cards:
+
+      # ── Status & Modus ──────────────────────────────────────────────────────
+      - type: horizontal-stack
+        cards:
+
+          - type: custom:mushroom-entity-card
+            entity: sensor.wallbox_status
+            name: Status
+            icon: mdi:ev-station
+            fill_container: true
+            icon_color: >-
+              {% set s = states('sensor.wallbox_status') %}
+              {% if s == 'charging' %} green
+              {% elif s == 'available' %} blue
+              {% elif s == 'occupied' %} amber
+              {% else %} grey {% endif %}
+            card_mod:
+              style: |
+                ha-card { border-radius: 16px !important; }
+
+          - type: custom:mushroom-entity-card
+            entity: sensor.wallbox_lademodus
+            name: Lademodus
+            icon: mdi:tune-variant
+            fill_container: true
+            icon_color: >-
+              {% set m = states('sensor.wallbox_lademodus') %}
+              {% if m in ['surplus','surplus_plus'] %} green
+              {% elif m == 'manual' %} indigo
+              {% else %} grey {% endif %}
+            card_mod:
+              style: |
+                ha-card { border-radius: 16px !important; }
+
+      # ── Ladeleistung Gauge ──────────────────────────────────────────────────
+      - type: gauge
+        entity: sensor.wallbox_ladeleistung
+        name: Ladeleistung
+        unit: W
+        min: 0
+        max: 11000
+        needle: true
+        severity:
+          green: 0
+          yellow: 7400
+          red: 10000
+        card_mod:
+          style: |
+            ha-card { border-radius: 16px !important; }
+
+      # ── Energie heute & Letzte Session ──────────────────────────────────────
+      - type: horizontal-stack
+        cards:
+
+          - type: custom:mushroom-entity-card
+            entity: sensor.wallbox_ladeenergie_heute
+            name: Heute
+            icon: mdi:calendar-today
+            icon_color: green
+            fill_container: true
+            card_mod:
+              style: |
+                ha-card { border-radius: 16px !important; }
+
+          - type: custom:mushroom-entity-card
+            entity: sensor.wallbox_letzte_ladesession
+            name: Letzte Session
+            icon: mdi:history
+            icon_color: cyan
+            fill_container: true
+            card_mod:
+              style: |
+                ha-card { border-radius: 16px !important; }
+
+          - type: custom:mushroom-entity-card
+            entity: sensor.wallbox_ladeenergie_gesamt
+            name: Gesamt
+            icon: mdi:counter
+            icon_color: green
+            fill_container: true
+            card_mod:
+              style: |
+                ha-card { border-radius: 16px !important; }
+
+      # ── Phasenströme ────────────────────────────────────────────────────────
+      - type: custom:mushroom-title-card
+        subtitle: Phasenströme
+        card_mod:
+          style: |
+            ha-card { box-shadow: none !important; background: none !important; padding: 4px 0 0 4px !important; }
+
+      - type: horizontal-stack
+        cards:
+
+          - type: custom:mushroom-entity-card
+            entity: sensor.wallbox_phasenstrom_l1
+            name: L1
+            icon: mdi:alpha-l-circle
+            icon_color: indigo
+            fill_container: true
+            card_mod:
+              style: |
+                ha-card { border-radius: 16px !important; }
+
+          - type: custom:mushroom-entity-card
+            entity: sensor.wallbox_phasenstrom_l2
+            name: L2
+            icon: mdi:alpha-l-circle
+            icon_color: indigo
+            fill_container: true
+            card_mod:
+              style: |
+                ha-card { border-radius: 16px !important; }
+
+          - type: custom:mushroom-entity-card
+            entity: sensor.wallbox_phasenstrom_l3
+            name: L3
+            icon: mdi:alpha-l-circle
+            icon_color: indigo
+            fill_container: true
+            card_mod:
+              style: |
+                ha-card { border-radius: 16px !important; }
+
+      # ── Regelstrom & Stromlimit ─────────────────────────────────────────────
+      - type: horizontal-stack
+        cards:
+
+          - type: custom:mushroom-entity-card
+            entity: sensor.wallbox_regelstrom
+            name: Regelstrom
+            icon: mdi:sine-wave
+            icon_color: amber
+            fill_container: true
+            card_mod:
+              style: |
+                ha-card { border-radius: 16px !important; }
+
+          - type: custom:mushroom-entity-card
+            entity: sensor.wallbox_stromlimit
+            name: Stromlimit
+            icon: mdi:speedometer
+            icon_color: amber
+            fill_container: true
+            card_mod:
+              style: |
+                ha-card { border-radius: 16px !important; }
+
+          - type: custom:mushroom-entity-card
+            entity: sensor.wallbox_temperatur
+            name: Temperatur
+            icon: mdi:thermometer
+            fill_container: true
+            icon_color: >-
+              {% set t = states('sensor.wallbox_temperatur') | float(0) %}
+              {% if t > 50 %} red
+              {% elif t > 35 %} orange
+              {% else %} blue {% endif %}
+            card_mod:
+              style: |
+                ha-card { border-radius: 16px !important; }
+
+      # ── Ladeenergie Verlauf ─────────────────────────────────────────────────
+      - type: statistics-graph
+        title: Ladeenergie letzte 7 Tage
+        entities:
+          - entity: sensor.wallbox_ladeenergie_gesamt
+            name: Ladeenergie
+        stat_types:
+          - sum
+        chart_type: bar
+        period: day
+        days_to_show: 7
+        card_mod:
+          style: |
+            ha-card { border-radius: 16px !important; }
+
+      # ── Ladezyklen ──────────────────────────────────────────────────────────
+      - type: custom:mushroom-entity-card
+        entity: sensor.wallbox_ladezyklen_gesamt
+        name: Ladezyklen gesamt
+        icon: mdi:counter
+        icon_color: grey
+        card_mod:
+          style: |
+            ha-card { border-radius: 16px !important; }
