@@ -7,8 +7,14 @@ views:
     background:
       color: '#0a0a0a'
     cards:
+
+      # ══════════════════════════════════════════════════════════════════════
+      # LINKER STAPEL
+      # ══════════════════════════════════════════════════════════════════════
       - type: vertical-stack
         cards:
+
+          # 1 — Status & Modus
           - type: custom:stack-in-card
             mode: horizontal
             card_mod:
@@ -47,7 +53,7 @@ views:
                     - text-transform: uppercase
                   icon:
                     - width: 22px
-                    - color: |-
+                    - color: >-
                         [[[ if (entity.state === 'charging') return '#00e070';
                             if (entity.state === 'available') return '#4a9eff';
                             if (entity.state === 'occupied') return '#cc8800';
@@ -71,6 +77,7 @@ views:
                     styles:
                       state:
                         - color: '#444'
+
               - type: custom:button-card
                 entity: sensor.wallbox_lademodus
                 show_name: true
@@ -96,9 +103,7 @@ views:
                   icon:
                     - width: 22px
                     - color: >-
-                        [[[ if
-                        (['surplus','surplus_plus'].includes(entity.state))
-                        return '#00803a';
+                        [[[ if (['surplus','surplus_plus'].includes(entity.state)) return '#00803a';
                             if (entity.state === 'manual') return '#4a9eff';
                             return '#333'; ]]]
                   img_cell:
@@ -124,6 +129,59 @@ views:
                     styles:
                       state:
                         - color: '#555'
+
+          # 2 — Lademodus Switch
+          - type: custom:button-card
+            entity: switch.wallbox_lademodus_manuell
+            show_name: true
+            show_state: true
+            show_icon: true
+            name: LADEMODUS
+            tap_action:
+              action: toggle
+            styles:
+              card:
+                - background: "#111"
+                - border: 1px solid "#1e1e1e"
+                - border-radius: 16px
+                - padding: 14px 16px
+                - cursor: pointer
+                - text-align: center
+              grid:
+                - grid-template-areas: '"i" "n" "s"'
+                - grid-template-columns: auto
+                - justify-items: center
+              name:
+                - font-size: 9px
+                - letter-spacing: 0.18em
+                - color: "#444"
+                - text-transform: uppercase
+                - justify-self: center
+                - margin-bottom: 4px
+              state:
+                - font-size: 16px
+                - font-weight: 700
+                - justify-self: center
+              icon:
+                - width: 22px
+                - color: >-
+                    [[[ return entity.state === 'on' ? '#4a9eff' : '#00803a'; ]]]
+              img_cell:
+                - margin-right: 0px
+                - margin-bottom: 6px
+            state_display: >-
+              [[[ return entity.state === 'on' ? 'Manuell (M)' : 'Überschuss (A)'; ]]]
+            state:
+              - value: 'on'
+                styles:
+                  state:
+                    - color: '#4a9eff'
+              - value: 'off'
+                styles:
+                  state:
+                    - color: '#00803a'
+
+          # 3 — Ladeleistung
           - type: custom:button-card
             entity: sensor.wallbox_ladeleistung
             show_name: true
@@ -156,6 +214,8 @@ views:
                 const kw = (w / 1000).toFixed(2);
                 return `<span style="color:white">${kw}</span><span style="font-size:24px;color:#00e070;font-weight:400;margin-left:6px">kW</span>`;
               ]]]
+
+          # 4 — Letzte Session & Heute
           - type: custom:stack-in-card
             mode: horizontal
             card_mod:
@@ -191,6 +251,7 @@ views:
                     - font-size: 28px
                     - font-weight: 700
                     - color: '#ddd'
+
               - type: custom:button-card
                 entity: sensor.wallbox_ladeenergie_heute
                 show_name: true
@@ -214,8 +275,14 @@ views:
                     - font-size: 28px
                     - font-weight: 700
                     - color: '#ddd'
+
+      # ══════════════════════════════════════════════════════════════════════
+      # RECHTER STAPEL
+      # ══════════════════════════════════════════════════════════════════════
       - type: vertical-stack
         cards:
+
+          # 1 — Regelstrom & Limit & Temp
           - type: custom:stack-in-card
             mode: horizontal
             card_mod:
@@ -251,6 +318,7 @@ views:
                     - font-size: 20px
                     - font-weight: 700
                     - color: '#00803a'
+
               - type: custom:button-card
                 entity: sensor.wallbox_stromlimit
                 show_name: true
@@ -275,6 +343,7 @@ views:
                     - font-size: 20px
                     - font-weight: 700
                     - color: '#555'
+
               - type: custom:button-card
                 entity: sensor.wallbox_temperatur
                 show_name: true
@@ -302,6 +371,8 @@ views:
                             if (t > 50) return '#cc3333';
                             if (t > 35) return '#cc8800';
                             return '#555'; ]]]
+
+          # 2 — Phasenströme
           - type: custom:button-card
             name: PHASENSTRÖME
             show_name: true
@@ -353,6 +424,8 @@ views:
                 phases:
                   - width: 100%
                   - padding: 0
+
+          # 3 — Verlauf
           - type: custom:mini-graph-card
             entities:
               - entity: sensor.wallbox_ladeleistung
@@ -391,6 +464,8 @@ views:
                   color: #444 !important;
                   font-size: 11px !important;
                 }
+
+          # 4 — Ladezyklen gesamt
           - type: custom:button-card
             entity: sensor.wallbox_ladezyklen_gesamt
             show_name: true

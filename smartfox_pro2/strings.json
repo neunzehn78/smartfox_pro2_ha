@@ -121,6 +121,15 @@
           "surplus_plus": "Überschussladen Plus (A+)"
         }
       }
+    },
+    "switch": {
+      "wallbox_mode_switch": {
+        "name": "Lademodus Manuell",
+        "state": {
+          "on": "Manuell (M)",
+          "off": "Überschuss (A)"
+        }
+      }
     }
   }
 }

@@ -121,6 +121,15 @@
           "surplus_plus": "Surplus Charging Plus (A+)"
         }
       }
+    },
+    "switch": {
+      "wallbox_mode_switch": {
+        "name": "Charging Mode Manual",
+        "state": {
+          "on": "Manual (M)",
+          "off": "Surplus (A)"
+        }
+      }
     }
   }
 }
