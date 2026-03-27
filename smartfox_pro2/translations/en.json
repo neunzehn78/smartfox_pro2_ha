@@ -120,6 +120,13 @@
           "surplus": "Surplus Charging (A)",
           "surplus_plus": "Surplus Charging Plus (A+)"
         }
+      },
+      "charger_phase_mode": {
+        "name": "Phase Mode",
+        "state": {
+          "1_phase": "1-phase",
+          "3_phase": "3-phase"
+        }
       }
     },
     "switch": {

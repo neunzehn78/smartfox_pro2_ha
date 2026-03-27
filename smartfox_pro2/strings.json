@@ -120,6 +120,13 @@
           "surplus": "Überschussladen (A)",
           "surplus_plus": "Überschussladen Plus (A+)"
         }
+      },
+      "charger_phase_mode": {
+        "name": "Phasenmodus",
+        "state": {
+          "1_phase": "1-phasig",
+          "3_phase": "3-phasig"
+        }
       }
     },
     "switch": {

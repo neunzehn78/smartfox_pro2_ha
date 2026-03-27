@@ -281,6 +281,15 @@ WALLBOX_SENSORS: tuple[SmartfoxSensorDescription, ...] = (
         options=list(CC_MODE_MAP.values()),
         value_fn=lambda d: CC_MODE_MAP.get(d.get("hidCcMode1", "").strip(), d.get("hidCcMode1")),
     ),
+    SmartfoxSensorDescription(
+        key="wallbox_phase_mode",
+        translation_key="charger_phase_mode",
+        native_unit_of_measurement=None,
+        device_class=SensorDeviceClass.ENUM,
+        state_class=None,
+        options=["1_phase", "3_phase"],
+        value_fn=lambda d: "3_phase" if d.get("hidCcPhase1", "").strip() == "3" else "1_phase",
+    ),
 )
 
 

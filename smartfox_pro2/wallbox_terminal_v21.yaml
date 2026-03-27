@@ -317,7 +317,8 @@ views:
                   state:
                     - font-size: 20px
                     - font-weight: 700
-                    - color: '#00803a'
+                    - color: >-
+                        [[[ return (parseFloat(entity.state) || 0) > 0 ? '#00803a' : '#555'; ]]]
 
               - type: custom:button-card
                 entity: sensor.wallbox_stromlimit
@@ -342,7 +343,8 @@ views:
                   state:
                     - font-size: 20px
                     - font-weight: 700
-                    - color: '#555'
+                    - color: >-
+                        [[[ return (parseFloat(entity.state) || 0) > 0 ? '#00803a' : '#555'; ]]]
 
               - type: custom:button-card
                 entity: sensor.wallbox_temperatur
@@ -373,59 +375,179 @@ views:
                             return '#555'; ]]]
 
           # 2 — Phasenströme
+          - type: custom:stack-in-card
+            mode: horizontal
+            card_mod:
+              style: |
+                ha-card {
+                  background: #111 !important;
+                  border: 1px solid #1e1e1e !important;
+                  border-radius: 16px !important;
+                  overflow: hidden !important;
+                }
+            cards:
+              - type: custom:button-card
+                entity: sensor.wallbox_phasenstrom_l1
+                show_name: true
+                show_state: true
+                show_icon: true
+                name: L1
+                icon: mdi:alpha-l-circle-outline
+                styles:
+                  card:
+                    - background: transparent
+                    - border: none
+                    - border-right: 1px solid "#1e1e1e"
+                    - border-radius: 0px
+                    - padding: 14px 10px
+                    - text-align: center
+                  name:
+                    - font-size: 9px
+                    - color: "#444"
+                    - letter-spacing: 0.1em
+                    - text-transform: uppercase
+                    - margin-bottom: 2px
+                  state:
+                    - font-size: 16px
+                    - font-weight: 700
+                    - color: "#e8f5f0"
+                  icon:
+                    - width: 24px
+                    - color: >-
+                        [[[ return (parseFloat(entity.state) || 0) > 0.5 ? '#00e070' : '#333'; ]]]
+                  img_cell:
+                    - margin-bottom: 4px
+                    - margin-right: 0px
+
+              - type: custom:button-card
+                entity: sensor.wallbox_phasenstrom_l2
+                show_name: true
+                show_state: true
+                show_icon: true
+                name: L2
+                icon: mdi:alpha-l-circle-outline
+                styles:
+                  card:
+                    - background: transparent
+                    - border: none
+                    - border-right: 1px solid "#1e1e1e"
+                    - border-radius: 0px
+                    - padding: 14px 10px
+                    - text-align: center
+                  name:
+                    - font-size: 9px
+                    - color: "#444"
+                    - letter-spacing: 0.1em
+                    - text-transform: uppercase
+                    - margin-bottom: 2px
+                  state:
+                    - font-size: 16px
+                    - font-weight: 700
+                    - color: "#e8f5f0"
+                  icon:
+                    - width: 24px
+                    - color: >-
+                        [[[ return (parseFloat(entity.state) || 0) > 0.5 ? '#00e070' : '#333'; ]]]
+                  img_cell:
+                    - margin-bottom: 4px
+                    - margin-right: 0px
+
+              - type: custom:button-card
+                entity: sensor.wallbox_phasenstrom_l3
+                show_name: true
+                show_state: true
+                show_icon: true
+                name: L3
+                icon: mdi:alpha-l-circle-outline
+                styles:
+                  card:
+                    - background: transparent
+                    - border: none
+                    - border-radius: 0px
+                    - padding: 14px 10px
+                    - text-align: center
+                  name:
+                    - font-size: 9px
+                    - color: "#444"
+                    - letter-spacing: 0.1em
+                    - text-transform: uppercase
+                    - margin-bottom: 2px
+                  state:
+                    - font-size: 16px
+                    - font-weight: 700
+                    - color: "#e8f5f0"
+                  icon:
+                    - width: 24px
+                    - color: >-
+                        [[[ return (parseFloat(entity.state) || 0) > 0.5 ? '#00e070' : '#333'; ]]]
+                  img_cell:
+                    - margin-bottom: 4px
+                    - margin-right: 0px
+
+          # 3 — Phasenmodus
           - type: custom:button-card
-            name: PHASENSTRÖME
+            entity: sensor.wallbox_phasenmodus
             show_name: true
-            show_state: false
-            show_icon: false
-            triggers_update:
-              - sensor.wallbox_phasenstrom_l1
-              - sensor.wallbox_phasenstrom_l2
-              - sensor.wallbox_phasenstrom_l3
-            custom_fields:
-              phases: |
-                [[[
-                  const max = 16;
-                  const phases = [
-                    { label: 'L1', id: 'sensor.wallbox_phasenstrom_l1' },
-                    { label: 'L2', id: 'sensor.wallbox_phasenstrom_l2' },
-                    { label: 'L3', id: 'sensor.wallbox_phasenstrom_l3' },
-                  ];
-                  const rows = phases.map(p => {
-                    const val = parseFloat(states[p.id]?.state) || 0;
-                    const pct = Math.min(100, (val / max) * 100);
-                    const col = pct > 80 ? '#00e070' : pct > 50 ? '#00803a' : '#004d28';
-                    return `
-                      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-                        <span style="font-size:10px;color:#444;width:16px;flex-shrink:0">${p.label}</span>
-                        <div style="flex:1;height:6px;background:#1e1e1e;border-radius:3px;overflow:hidden">
-                          <div style="width:${pct}%;height:100%;background:${col};border-radius:3px;transition:width .8s ease"></div>
-                        </div>
-                        <span style="font-size:12px;color:#777;width:72px;text-align:right;flex-shrink:0;padding-right:4px">${val.toFixed(1)} A</span>
-                      </div>`;
-                  }).join('');
-                  return `<div style="width:100%;padding:0 4px">${rows}</div>`;
-                ]]]
+            show_state: true
+            show_icon: true
+            name: PHASENMODUS
             styles:
               card:
-                - background: '#111'
+                - background: "#111"
                 - border: 1px solid "#1e1e1e"
                 - border-radius: 16px
-                - padding: 14px 20px 6px
-                - text-align: left
+                - padding: 14px 16px
+                - text-align: center
+              grid:
+                - grid-template-areas: '"i" "n" "s"'
+                - grid-template-columns: auto
+                - justify-items: center
               name:
                 - font-size: 9px
                 - letter-spacing: 0.18em
-                - color: '#2a2a2a'
+                - color: "#444"
                 - text-transform: uppercase
-                - margin-bottom: 10px
-                - display: block
-              custom_fields:
-                phases:
-                  - width: 100%
-                  - padding: 0
+                - justify-self: center
+                - margin-bottom: 4px
+              state:
+                - font-size: 16px
+                - font-weight: 700
+                - justify-self: center
+              icon:
+                - width: 24px
+                - color: >-
+                    [[[ return entity.state === '3-phasig' ? '#4a9eff' : '#00e070'; ]]]
+              img_cell:
+                - margin-bottom: 6px
+                - margin-right: 0px
+            state:
+              - value: "3_phase"
+                icon: mdi:numeric-3-circle-outline
+                styles:
+                  state:
+                    - color: "#4a9eff"
+              - value: "3-phasig"
+                icon: mdi:numeric-3-circle-outline
+                styles:
+                  state:
+                    - color: "#4a9eff"
+              - value: "1_phase"
+                icon: mdi:numeric-1-circle-outline
+                styles:
+                  state:
+                    - color: "#00e070"
+              - value: "1-phasig"
+                icon: mdi:numeric-1-circle-outline
+                styles:
+                  state:
+                    - color: "#00e070"
+              - operator: default
+                icon: mdi:numeric-1-circle-outline
+                styles:
+                  state:
+                    - color: "#00e070"
 
-          # 3 — Verlauf
+          # 4 — Verlauf
           - type: custom:mini-graph-card
             entities:
               - entity: sensor.wallbox_ladeleistung
