@@ -1,10 +1,10 @@
 # Smartfox Pro 2 – Home Assistant Integration
 
 [![HACS Custom](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://hacs.xyz)
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
+![Version](https://img.shields.io/badge/version-1.1.1-blue)
 
 Inoffizielle Home Assistant Integration für den **Smartfox Pro 2 Energiemanager**.  
-Die Integration liest die Daten über die lokale HTTP-Schnittstelle (`/values.xml`) aus — keine Cloud, keine externen Dienste.
+Die Integration liest die Daten über die lokale HTTP-Schnittstelle (`/values.xml`) aus und ermöglicht die Steuerung der Wallbox über **Modbus TCP** — keine Cloud, keine externen Dienste.
 
 ---
 
@@ -33,7 +33,7 @@ Die Integration liest die Daten über die lokale HTTP-Schnittstelle (`/values.xm
 | Netzeinspeisung heute | kWh | Tageswert Einspeisung |
 | Netzfrequenz | Hz | Netzfrequenz |
 
-### Wallbox CC1 — 12 Sensoren
+### Wallbox CC1 — 13 Sensoren
 
 | Sensor | Einheit | Beschreibung |
 |---|---|---|
@@ -43,10 +43,39 @@ Die Integration liest die Daten über die lokale HTTP-Schnittstelle (`/values.xm
 | Letzte Ladesession | kWh | Energie der letzten Ladesession |
 | Ladezyklen gesamt | – | Anzahl abgeschlossener Ladevorgänge |
 | Status | – | Verfügbar / Lädt / Belegt / Offline |
+| Lademodus | – | Überschussladen (A) / Überschuss A+ / Manuell (M) / AUS |
+| Phasenmodus | – | 1-phasig / 3-phasig |
 | Regelstrom | A | Vom Energiemanager vorgegebener Ladestrom |
 | Phasenstrom L1 / L2 / L3 | A | Gemessener Strom je Phase an der Wallbox |
 | Temperatur | °C | Temperatur des Ladecontrollers |
 | Stromlimit | % | Aktuelles Stromlimit in Prozent |
+
+---
+
+## Steuerung
+
+### Wallbox Lademodus (Modbus TCP)
+
+Die Integration enthält einen **Switch** zur Umschaltung des Lademodus der Wallbox:
+
+| Zustand | Lademodus |
+|---|---|
+| AUS | Überschussladen (A) — Smartfox regelt automatisch nach PV-Überschuss |
+| AN | Manuell (M) — lädt mit 100 % des konfigurierten Maximalstroms |
+
+Die Umschaltung erfolgt über **Modbus TCP** (Port 502) direkt an den Smartfox Pro 2.  
+Der Switch liest den aktuellen Modus aus `hidCcMode1` zurück — Änderungen direkt an der Wallbox werden nach spätestens 30 Sekunden im Switch sichtbar.
+
+> **Hinweis:** Über Modbus sind nur die Modi Überschuss (A) und Manuell (M) steuerbar. AUS und A+ können nur direkt an der Wallbox oder in der Smartfox App gesetzt werden.
+
+---
+
+## Energy Dashboard
+
+Den Sensor **„Ladeenergie gesamt"** (`sensor.wallbox_ladeenergie_gesamt`) direkt unter  
+**Einstellungen → Energie → Individuelle Geräte** hinzufügen.
+
+Dieser Sensor akkumuliert alle Ladevorgänge dauerhaft und übersteht auch HA-Neustarts.
 
 ---
 
@@ -55,7 +84,7 @@ Die Integration liest die Daten über die lokale HTTP-Schnittstelle (`/values.xm
 ### Option A – HACS (empfohlen)
 
 1. HACS öffnen → **„Benutzerdefinierte Repositories"**
-2. URL dieses Repositories einfügen, Kategorie **„Integration"** auswählen
+2. URL `https://github.com/neunzehn78/smartfox_pro2_ha` einfügen, Kategorie **„Integration"** auswählen
 3. Integration **„Smartfox Pro 2"** suchen und installieren
 4. Home Assistant neu starten
 
@@ -76,19 +105,12 @@ Die Integration liest die Daten über die lokale HTTP-Schnittstelle (`/values.xm
 
 ---
 
-## Energy Dashboard
-
-Den Sensor **„Ladeenergie gesamt"** (`sensor.wallbox_ladeenergie_gesamt`) direkt unter  
-**Einstellungen → Energie → Individuelle Geräte** hinzufügen.
-
-Dieser Sensor akkumuliert alle Ladevorgänge dauerhaft und übersteht auch HA-Neustarts.
-
----
-
 ## Voraussetzungen
 
 - Home Assistant 2023.6 oder neuer
-- Smartfox Pro 2 im lokalen Netzwerk erreichbar
+- Smartfox Pro 2 im lokalen Netzwerk erreichbar (feste IP-Adresse empfohlen)
+- Modbus TCP am Smartfox aktiv (für Wallbox-Steuerung)
+- `pymodbus >= 3.7.0` (wird automatisch installiert)
 - Kein Internetzugang des Smartfox notwendig
 
 ---
@@ -96,6 +118,7 @@ Dieser Sensor akkumuliert alle Ladevorgänge dauerhaft und übersteht auch HA-Ne
 ## Bekannte Einschränkungen
 
 - Der Smartfox Pro 2 hat keinen direkten Zugriff auf Wechselrichter- oder Speicherdaten — diese Werte werden daher nicht ausgelesen
+- Über Modbus sind nur die Lademodi Überschuss (A) und Manuell (M) steuerbar
 - Die `/values.xml`-Schnittstelle ist eine inoffizielle API und kann sich mit Firmware-Updates ändern
 
 ---

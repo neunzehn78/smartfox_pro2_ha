@@ -7,21 +7,15 @@ views:
     background:
       color: '#0a0a0a'
     cards:
-
-      # ══════════════════════════════════════════════════════════════════════
-      # LINKER STAPEL
-      # ══════════════════════════════════════════════════════════════════════
       - type: vertical-stack
         cards:
-
-          # 1 — Status & Modus
           - type: custom:stack-in-card
             mode: horizontal
             card_mod:
               style: |
                 ha-card {
-                  background: #111 !important;
-                  border: 1px solid #1e1e1e !important;
+                  background: #0d0d0d !important;
+                  border: 1px solid #2a2a2a !important;
                   border-radius: 16px !important;
                   overflow: hidden !important;
                 }
@@ -37,13 +31,13 @@ views:
                   card:
                     - background: transparent
                     - border: none
-                    - border-right: 1px solid "#1e1e1e"
+                    - border-right: 1px solid "#2a2a2a"
                     - border-radius: 0px
                     - padding: 14px 16px
                   name:
-                    - font-size: 9px
-                    - letter-spacing: 0.18em
-                    - color: '#444'
+                    - font-size: 10px
+                    - letter-spacing: 0.12em
+                    - color: '#888'
                     - text-transform: uppercase
                     - margin-bottom: 2px
                   state:
@@ -53,7 +47,7 @@ views:
                     - text-transform: uppercase
                   icon:
                     - width: 22px
-                    - color: >-
+                    - color: |-
                         [[[ if (entity.state === 'charging') return '#00e070';
                             if (entity.state === 'available') return '#4a9eff';
                             if (entity.state === 'occupied') return '#cc8800';
@@ -76,8 +70,7 @@ views:
                   - operator: default
                     styles:
                       state:
-                        - color: '#444'
-
+                        - color: '#888'
               - type: custom:button-card
                 entity: sensor.wallbox_lademodus
                 show_name: true
@@ -92,9 +85,9 @@ views:
                     - border-radius: 0px
                     - padding: 14px 16px
                   name:
-                    - font-size: 9px
-                    - letter-spacing: 0.18em
-                    - color: '#444'
+                    - font-size: 10px
+                    - letter-spacing: 0.12em
+                    - color: '#888'
                     - text-transform: uppercase
                     - margin-bottom: 2px
                   state:
@@ -103,7 +96,9 @@ views:
                   icon:
                     - width: 22px
                     - color: >-
-                        [[[ if (['surplus','surplus_plus'].includes(entity.state)) return '#00803a';
+                        [[[ if
+                        (['surplus','surplus_plus'].includes(entity.state))
+                        return '#00803a';
                             if (entity.state === 'manual') return '#4a9eff';
                             return '#333'; ]]]
                   img_cell:
@@ -124,13 +119,11 @@ views:
                   - value: 'off'
                     styles:
                       state:
-                        - color: '#444'
+                        - color: '#888'
                   - operator: default
                     styles:
                       state:
                         - color: '#555'
-
-          # 2 — Lademodus Switch
           - type: custom:button-card
             entity: switch.wallbox_lademodus_manuell
             show_name: true
@@ -141,8 +134,8 @@ views:
               action: toggle
             styles:
               card:
-                - background: "#111"
-                - border: 1px solid "#1e1e1e"
+                - background: '#0d0d0d'
+                - border: 1px solid "#2a2a2a"
                 - border-radius: 16px
                 - padding: 14px 16px
                 - cursor: pointer
@@ -152,9 +145,9 @@ views:
                 - grid-template-columns: auto
                 - justify-items: center
               name:
-                - font-size: 9px
-                - letter-spacing: 0.18em
-                - color: "#444"
+                - font-size: 10px
+                - letter-spacing: 0.12em
+                - color: '#888'
                 - text-transform: uppercase
                 - justify-self: center
                 - margin-bottom: 4px
@@ -165,12 +158,14 @@ views:
               icon:
                 - width: 22px
                 - color: >-
-                    [[[ return entity.state === 'on' ? '#4a9eff' : '#00803a'; ]]]
+                    [[[ return entity.state === 'on' ? '#4a9eff' : '#00803a';
+                    ]]]
               img_cell:
                 - margin-right: 0px
                 - margin-bottom: 6px
             state_display: >-
-              [[[ return entity.state === 'on' ? 'Manuell (M)' : 'Überschuss (A)'; ]]]
+              [[[ return entity.state === 'on' ? 'Manuell (M)' : 'Überschuss
+              (A)'; ]]]
             state:
               - value: 'on'
                 styles:
@@ -180,8 +175,6 @@ views:
                 styles:
                   state:
                     - color: '#00803a'
-
-          # 3 — Ladeleistung
           - type: custom:button-card
             entity: sensor.wallbox_ladeleistung
             show_name: true
@@ -191,14 +184,14 @@ views:
             styles:
               card:
                 - background: '#0d0d0d'
-                - border: 1px solid "#1e1e1e"
+                - border: 1px solid "#2a2a2a"
                 - border-radius: 16px
                 - padding: 24px 20px 20px
                 - text-align: center
               name:
-                - font-size: 9px
-                - letter-spacing: 0.18em
-                - color: '#333'
+                - font-size: 10px
+                - letter-spacing: 0.12em
+                - color: '#888'
                 - text-transform: uppercase
                 - margin-bottom: 8px
                 - display: block
@@ -212,17 +205,15 @@ views:
               [[[
                 const w = parseFloat(entity.state) || 0;
                 const kw = (w / 1000).toFixed(2);
-                return `<span style="color:white">${kw}</span><span style="font-size:24px;color:#00e070;font-weight:400;margin-left:6px">kW</span>`;
+                return `<span style="color:white">${kw}</span><span style="font-size:24px;color:white;font-weight:400;margin-left:6px">kW</span>`;
               ]]]
-
-          # 4 — Letzte Session & Heute
           - type: custom:stack-in-card
             mode: horizontal
             card_mod:
               style: |
                 ha-card {
-                  background: #111 !important;
-                  border: 1px solid #1e1e1e !important;
+                  background: #0d0d0d !important;
+                  border: 1px solid #2a2a2a !important;
                   border-radius: 16px !important;
                   overflow: hidden !important;
                 }
@@ -237,21 +228,20 @@ views:
                   card:
                     - background: transparent
                     - border: none
-                    - border-right: 1px solid "#1e1e1e"
+                    - border-right: 1px solid "#2a2a2a"
                     - border-radius: 0px
                     - padding: 16px
                     - text-align: center
                   name:
-                    - font-size: 9px
-                    - letter-spacing: 0.15em
-                    - color: '#444'
+                    - font-size: 10px
+                    - letter-spacing: 0.12em
+                    - color: '#888'
                     - text-transform: uppercase
                     - margin-bottom: 6px
                   state:
                     - font-size: 28px
                     - font-weight: 700
                     - color: '#ddd'
-
               - type: custom:button-card
                 entity: sensor.wallbox_ladeenergie_heute
                 show_name: true
@@ -266,9 +256,9 @@ views:
                     - padding: 16px
                     - text-align: center
                   name:
-                    - font-size: 9px
-                    - letter-spacing: 0.15em
-                    - color: '#444'
+                    - font-size: 10px
+                    - letter-spacing: 0.12em
+                    - color: '#888'
                     - text-transform: uppercase
                     - margin-bottom: 6px
                   state:
@@ -276,20 +266,63 @@ views:
                     - font-weight: 700
                     - color: '#ddd'
 
-      # ══════════════════════════════════════════════════════════════════════
-      # RECHTER STAPEL
-      # ══════════════════════════════════════════════════════════════════════
+          # 5 — Skoda Enyaq Ladestand
+          - type: custom:button-card
+            entity: sensor.skoda_enyaq_batteriestand
+            show_name: true
+            show_state: true
+            show_icon: true
+            name: ENYAQ LADESTAND
+            icon: mdi:car-electric
+            styles:
+              card:
+                - background: "#0d0d0d"
+                - border: 1px solid "#2a2a2a"
+                - border-radius: 16px
+                - padding: 14px 16px
+                - text-align: center
+              grid:
+                - grid-template-areas: '"i" "n" "s"'
+                - grid-template-columns: 1fr
+                - justify-items: center
+                - align-items: center
+              name:
+                - font-size: 10px
+                - letter-spacing: 0.12em
+                - color: '#888'
+                - text-transform: uppercase
+                - justify-self: center
+                - margin-top: 6px
+                - margin-bottom: 4px
+              state:
+                - font-size: 36px
+                - font-weight: 700
+                - justify-self: center
+              icon:
+                - width: 28px
+                - color: >-
+                    [[[ const soc = parseFloat(entity.state) || 0;
+                        if (soc >= 80) return '#00e070';
+                        if (soc >= 50) return '#4a9eff';
+                        if (soc >= 20) return '#cc8800';
+                        return '#cc3333'; ]]]
+              img_cell:
+                - justify-self: center
+                - margin: 0 auto
+            state_display: >-
+              [[[ const soc = parseFloat(entity.state) || 0;
+                  const col = soc >= 80 ? '#00e070' : soc >= 50 ? '#4a9eff' : soc >= 20 ? '#cc8800' : '#cc3333';
+                  return `<span style="color:${col}">${soc}</span><span style="font-size:18px;color:#555;margin-left:4px">%</span>`;
+              ]]]
       - type: vertical-stack
         cards:
-
-          # 1 — Regelstrom & Limit & Temp
           - type: custom:stack-in-card
             mode: horizontal
             card_mod:
               style: |
                 ha-card {
                   background: #0d0d0d !important;
-                  border: 1px solid #1e1e1e !important;
+                  border: 1px solid #2a2a2a !important;
                   border-radius: 16px !important;
                   overflow: hidden !important;
                 }
@@ -304,22 +337,22 @@ views:
                   card:
                     - background: transparent
                     - border: none
-                    - border-right: 1px solid "#1e1e1e"
+                    - border-right: 1px solid "#2a2a2a"
                     - border-radius: 0px
                     - padding: 14px 10px
                     - text-align: center
                   name:
-                    - font-size: 8px
+                    - font-size: 10px
                     - letter-spacing: 0.12em
-                    - color: '#2a2a2a'
+                    - color: '#888'
                     - text-transform: uppercase
                     - margin-bottom: 4px
                   state:
                     - font-size: 20px
                     - font-weight: 700
                     - color: >-
-                        [[[ return (parseFloat(entity.state) || 0) > 0 ? '#00803a' : '#555'; ]]]
-
+                        [[[ return (parseFloat(entity.state) || 0) > 0 ?
+                        '#00803a' : '#555'; ]]]
               - type: custom:button-card
                 entity: sensor.wallbox_stromlimit
                 show_name: true
@@ -330,22 +363,22 @@ views:
                   card:
                     - background: transparent
                     - border: none
-                    - border-right: 1px solid "#1e1e1e"
+                    - border-right: 1px solid "#2a2a2a"
                     - border-radius: 0px
                     - padding: 14px 10px
                     - text-align: center
                   name:
-                    - font-size: 8px
+                    - font-size: 10px
                     - letter-spacing: 0.12em
-                    - color: '#2a2a2a'
+                    - color: '#888'
                     - text-transform: uppercase
                     - margin-bottom: 4px
                   state:
                     - font-size: 20px
                     - font-weight: 700
                     - color: >-
-                        [[[ return (parseFloat(entity.state) || 0) > 0 ? '#00803a' : '#555'; ]]]
-
+                        [[[ return (parseFloat(entity.state) || 0) > 0 ?
+                        '#00803a' : '#555'; ]]]
               - type: custom:button-card
                 entity: sensor.wallbox_temperatur
                 show_name: true
@@ -360,9 +393,9 @@ views:
                     - padding: 14px 10px
                     - text-align: center
                   name:
-                    - font-size: 8px
+                    - font-size: 10px
                     - letter-spacing: 0.12em
-                    - color: '#2a2a2a'
+                    - color: '#888'
                     - text-transform: uppercase
                     - margin-bottom: 4px
                   state:
@@ -373,15 +406,13 @@ views:
                             if (t > 50) return '#cc3333';
                             if (t > 35) return '#cc8800';
                             return '#555'; ]]]
-
-          # 2 — Phasenströme
           - type: custom:stack-in-card
             mode: horizontal
             card_mod:
               style: |
                 ha-card {
-                  background: #111 !important;
-                  border: 1px solid #1e1e1e !important;
+                  background: #0d0d0d !important;
+                  border: 1px solid #2a2a2a !important;
                   border-radius: 16px !important;
                   overflow: hidden !important;
                 }
@@ -397,28 +428,28 @@ views:
                   card:
                     - background: transparent
                     - border: none
-                    - border-right: 1px solid "#1e1e1e"
+                    - border-right: 1px solid "#2a2a2a"
                     - border-radius: 0px
                     - padding: 14px 10px
                     - text-align: center
                   name:
-                    - font-size: 9px
-                    - color: "#444"
-                    - letter-spacing: 0.1em
+                    - font-size: 10px
+                    - color: '#888'
+                    - letter-spacing: 0.12em
                     - text-transform: uppercase
                     - margin-bottom: 2px
                   state:
                     - font-size: 16px
                     - font-weight: 700
-                    - color: "#e8f5f0"
+                    - color: '#e8f5f0'
                   icon:
                     - width: 24px
                     - color: >-
-                        [[[ return (parseFloat(entity.state) || 0) > 0.5 ? '#00e070' : '#333'; ]]]
+                        [[[ return (parseFloat(entity.state) || 0) > 0.5 ?
+                        '#00e070' : '#333'; ]]]
                   img_cell:
                     - margin-bottom: 4px
                     - margin-right: 0px
-
               - type: custom:button-card
                 entity: sensor.wallbox_phasenstrom_l2
                 show_name: true
@@ -430,28 +461,28 @@ views:
                   card:
                     - background: transparent
                     - border: none
-                    - border-right: 1px solid "#1e1e1e"
+                    - border-right: 1px solid "#2a2a2a"
                     - border-radius: 0px
                     - padding: 14px 10px
                     - text-align: center
                   name:
-                    - font-size: 9px
-                    - color: "#444"
-                    - letter-spacing: 0.1em
+                    - font-size: 10px
+                    - color: '#888'
+                    - letter-spacing: 0.12em
                     - text-transform: uppercase
                     - margin-bottom: 2px
                   state:
                     - font-size: 16px
                     - font-weight: 700
-                    - color: "#e8f5f0"
+                    - color: '#e8f5f0'
                   icon:
                     - width: 24px
                     - color: >-
-                        [[[ return (parseFloat(entity.state) || 0) > 0.5 ? '#00e070' : '#333'; ]]]
+                        [[[ return (parseFloat(entity.state) || 0) > 0.5 ?
+                        '#00e070' : '#333'; ]]]
                   img_cell:
                     - margin-bottom: 4px
                     - margin-right: 0px
-
               - type: custom:button-card
                 entity: sensor.wallbox_phasenstrom_l3
                 show_name: true
@@ -467,24 +498,23 @@ views:
                     - padding: 14px 10px
                     - text-align: center
                   name:
-                    - font-size: 9px
-                    - color: "#444"
-                    - letter-spacing: 0.1em
+                    - font-size: 10px
+                    - color: '#888'
+                    - letter-spacing: 0.12em
                     - text-transform: uppercase
                     - margin-bottom: 2px
                   state:
                     - font-size: 16px
                     - font-weight: 700
-                    - color: "#e8f5f0"
+                    - color: '#e8f5f0'
                   icon:
                     - width: 24px
                     - color: >-
-                        [[[ return (parseFloat(entity.state) || 0) > 0.5 ? '#00e070' : '#333'; ]]]
+                        [[[ return (parseFloat(entity.state) || 0) > 0.5 ?
+                        '#00e070' : '#333'; ]]]
                   img_cell:
                     - margin-bottom: 4px
                     - margin-right: 0px
-
-          # 3 — Phasenmodus
           - type: custom:button-card
             entity: sensor.wallbox_phasenmodus
             show_name: true
@@ -493,8 +523,8 @@ views:
             name: PHASENMODUS
             styles:
               card:
-                - background: "#111"
-                - border: 1px solid "#1e1e1e"
+                - background: '#0d0d0d'
+                - border: 1px solid "#2a2a2a"
                 - border-radius: 16px
                 - padding: 14px 16px
                 - text-align: center
@@ -503,9 +533,9 @@ views:
                 - grid-template-columns: auto
                 - justify-items: center
               name:
-                - font-size: 9px
-                - letter-spacing: 0.18em
-                - color: "#444"
+                - font-size: 10px
+                - letter-spacing: 0.12em
+                - color: '#888'
                 - text-transform: uppercase
                 - justify-self: center
                 - margin-bottom: 4px
@@ -516,38 +546,37 @@ views:
               icon:
                 - width: 24px
                 - color: >-
-                    [[[ return entity.state === '3-phasig' ? '#4a9eff' : '#00e070'; ]]]
+                    [[[ return (entity.state === '3-phasig' || entity.state === '3_phase') ? '#4a9eff' :
+                    '#00e070'; ]]]
               img_cell:
                 - margin-bottom: 6px
                 - margin-right: 0px
             state:
-              - value: "3_phase"
+              - value: 3_phase
                 icon: mdi:numeric-3-circle-outline
                 styles:
                   state:
-                    - color: "#4a9eff"
-              - value: "3-phasig"
+                    - color: '#4a9eff'
+              - value: 3-phasig
                 icon: mdi:numeric-3-circle-outline
                 styles:
                   state:
-                    - color: "#4a9eff"
-              - value: "1_phase"
+                    - color: '#4a9eff'
+              - value: 1_phase
                 icon: mdi:numeric-1-circle-outline
                 styles:
                   state:
-                    - color: "#00e070"
-              - value: "1-phasig"
+                    - color: '#00e070'
+              - value: 1-phasig
                 icon: mdi:numeric-1-circle-outline
                 styles:
                   state:
-                    - color: "#00e070"
+                    - color: '#00e070'
               - operator: default
                 icon: mdi:numeric-1-circle-outline
                 styles:
                   state:
-                    - color: "#00e070"
-
-          # 4 — Verlauf
+                    - color: '#00e070'
           - type: custom:mini-graph-card
             entities:
               - entity: sensor.wallbox_ladeleistung
@@ -572,8 +601,8 @@ views:
             card_mod:
               style: |
                 ha-card {
-                  background: #111 !important;
-                  border: 1px solid #1e1e1e !important;
+                  background: #0d0d0d !important;
+                  border: 1px solid #2a2a2a !important;
                   border-radius: 16px !important;
                 }
                 .header .name {
@@ -586,8 +615,6 @@ views:
                   color: #444 !important;
                   font-size: 11px !important;
                 }
-
-          # 4 — Ladezyklen gesamt
           - type: custom:button-card
             entity: sensor.wallbox_ladezyklen_gesamt
             show_name: true
@@ -597,8 +624,8 @@ views:
             name: Ladezyklen gesamt
             styles:
               card:
-                - background: '#0a0a0a'
-                - border: 1px solid "#141414"
+                - background: '#0d0d0d'
+                - border: 1px solid "#2a2a2a"
                 - border-radius: 16px
                 - padding: 10px 16px
                 - justify-content: flex-start
@@ -608,14 +635,14 @@ views:
                 - grid-template-columns: min-content 1fr min-content
               name:
                 - font-size: 10px
-                - color: '#2a2a2a'
-                - letter-spacing: 0.1em
+                - color: '#888'
+                - letter-spacing: 0.12em
                 - text-transform: uppercase
                 - justify-self: start
               state:
                 - font-size: 13px
                 - font-weight: 700
-                - color: '#333'
+                - color: '#888'
                 - justify-self: end
               icon:
                 - color: '#1e1e1e'
